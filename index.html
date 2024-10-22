@@ -47,8 +47,8 @@
             border-color: #aaa; /* Cambiar color del borde al enfocar */
         }
         button {
-            font-size: 1.5rem; /* Tamaño de fuente para botones */
-            padding: 10px 20px; /* Espacio interior */
+            font-size: 1.2rem; /* Tamaño de fuente más pequeño para botones */
+            padding: 8px 16px; /* Espacio interior más pequeño */
             margin-top: 10px; /* Espacio superior */
             border: none; /* Sin borde */
             border-radius: 5px; /* Bordes redondeados */
@@ -204,7 +204,6 @@
         function toggleTimer() {
             isPaused = !isPaused;
             document.getElementById('toggleButton').textContent = isPaused ? 'Reanudar' : 'Pausar';
-            document.body.style.backgroundColor = isPaused ? 'grey' : document.body.style.backgroundColor; // Cambiar color al pausar
         }
     </script>
 </body>
