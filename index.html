@@ -21,16 +21,21 @@
             display: flex; /* Usar flex para alinear los logos */
             justify-content: center; /* Centrar logos */
             margin-bottom: 20px; /* Espacio debajo de los logos */
+            width: 100%; /* Ancho total */
+            position: absolute; /* Para mantener los logos en la parte superior */
+            top: 10px; /* Espacio desde la parte superior */
         }
         .logo-container img {
-            width: 50px; /* Ajustar el ancho de los logos */
-            height: auto; /* Mantener la proporción */
+            max-width: 80px; /* Ancho máximo de los logos */
+            height: auto; /* Mantener proporción */
             margin: 0 10px; /* Espacio entre los logos */
         }
         .input-container {
             margin-bottom: 40px; /* Espacio entre las cajas de entrada */
             width: 300px; /* Ancho fijo para mantener la alineación */
             text-align: left; /* Alinear el texto a la izquierda */
+            position: relative; /* Para permitir la posición relativa */
+            z-index: 1; /* Asegurarse de que esté encima de los logos */
         }
         .input-wrapper {
             margin-bottom: 20px; /* Espacio entre los campos */
@@ -187,9 +192,9 @@
                 if (!isPaused) { // Solo decrementar si no está en pausa
                     tiempoRestante--;
 
-                    // Cuando el tiempo entre mangas se haya agotado
+                    // Cuando el tiempo entre mangas se ha agotado
                     if (tiempoRestante <= 0) {
-                        clearInterval(intervalId); // Detener el intervalo
+                        clearInterval(intervalId); // Detener el intervalo de descanso
                         comenzarManga(); // Iniciar automáticamente la siguiente manga
                     }
 
@@ -198,10 +203,10 @@
             }, 1000);
         }
 
-        // Función para reproducir el sonido un número específico de veces
-        function reproducirBocina(repeticiones) {
-            let delay = 4000; // Tiempo de espera entre repeticiones
-            for (let i = 0; i < repeticiones; i++) {
+        // Función para reproducir el sonido de la bocina
+        function reproducirBocina(rep = 1) {
+            const delay = 4000; // Tiempo de espera entre repeticiones
+            for (let i = 0; i < rep; i++) {
                 setTimeout(() => {
                     bocina.currentTime = 0; // Reiniciar el sonido
                     bocina.play(); // Reproducir sonido
@@ -221,7 +226,6 @@
         function toggleTimer() {
             isPaused = !isPaused;
             document.getElementById('toggleButton').textContent = isPaused ? 'Reanudar' : 'Pausar';
-
             // No cambiar el color del fondo al pausar
         }
     </script>
