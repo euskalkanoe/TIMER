@@ -61,6 +61,11 @@
         button:hover {
             background-color: #f0f0f0; /* Color de fondo en hover */
         }
+        #toggleButton {
+            width: auto; /* Ancho automático para el botón de pausa */
+            padding: 5px 10px; /* Espacio interior reducido */
+            margin-top: 10px; /* Espacio superior */
+        }
         .timer {
             font-size: 6rem; /* Tamaño grande para el temporizador */
             margin: 20px 0; /* Espacio alrededor del temporizador */
@@ -200,11 +205,14 @@
             document.querySelector('.timer').textContent = `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
         }
 
-        // Función para pausar o reanudar el temporizador
+        // Función para alternar entre pausar y reanudar el temporizador
         function toggleTimer() {
             isPaused = !isPaused;
             document.getElementById('toggleButton').textContent = isPaused ? 'Reanudar' : 'Pausar';
+
+            // No cambiar el color del fondo al pausar
         }
     </script>
 </body>
 </html>
+
