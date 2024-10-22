@@ -12,77 +12,37 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            font-family: 'Arial', sans-serif;
-            background-color: red; /* Fondo rojo por defecto */
-            color: #000; /* Color del texto negro para visibilidad */
+            font-family: Arial, sans-serif;
             transition: background-color 0.5s ease;
-        }
-        .input-container {
-            margin-bottom: 40px; /* Espacio entre las cajas de entrada */
-            width: 300px; /* Ancho fijo para mantener la alineación */
-            text-align: left; /* Alinear el texto a la izquierda */
-        }
-        .input-wrapper {
-            margin-bottom: 20px; /* Espacio entre los campos */
-        }
-        label {
-            font-size: 0.9rem; /* Tamaño de fuente para el texto */
-            color: #000; /* Color del texto */
-            display: block; /* Hacer que el label ocupe toda la línea */
-            margin-bottom: 5px; /* Espacio entre el label y el input */
-        }
-        input {
-            font-size: 1.5rem; /* Tamaño de fuente para el input */
-            padding: 10px; /* Espacio interior */
-            width: 100%; /* Ancho del input al 100% */
-            border: 1px solid #ccc; /* Borde para mayor visibilidad */
-            border-radius: 5px; /* Bordes redondeados */
-            box-sizing: border-box; /* Incluir padding y borde en el tamaño total */
-            background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco para los inputs */
-            color: #333; /* Color del texto dentro del input */
-        }
-        input:focus {
-            outline: none; /* Sin contorno en el enfoque */
-            border-color: #aaa; /* Cambiar color del borde al enfocar */
-        }
-        button {
-            font-size: 1.2rem; /* Tamaño de fuente para botones */
-            padding: 10px; /* Espacio interior */
-            margin-top: 10px; /* Espacio superior */
-            border: none; /* Sin borde */
-            border-radius: 5px; /* Bordes redondeados */
-            cursor: pointer; /* Cursor pointer al pasar */
-            background-color: white; /* Color de fondo blanco */
-            color: #000; /* Texto negro para los botones */
-            transition: background-color 0.3s, color 0.3s; /* Transiciones suaves */
-            width: 100%; /* Botón del mismo ancho que los inputs */
-        }
-        button:hover {
-            background-color: #f0f0f0; /* Color de fondo en hover */
-        }
-        #toggleButton {
-            width: auto; /* Ancho automático para el botón de pausa */
-            padding: 5px 10px; /* Espacio interior reducido */
-            margin-top: 10px; /* Espacio superior */
-            display: none; /* Ocultar por defecto */
+            background-color: red; /* Fondo rojo por defecto */
         }
         .timer {
-            font-size: 6rem; /* Tamaño grande para el temporizador */
-            margin: 20px 0; /* Espacio alrededor del temporizador */
+            font-size: 5rem;
+            color: white;
             display: none; /* Oculto hasta que inicie la manga */
+        }
+        .input-container {
+            text-align: center;
+        }
+        input {
+            font-size: 1.5rem;
+            padding: 10px;
+            width: 100px;
+        }
+        button {
+            font-size: 1.5rem;
+            padding: 10px;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
+    <!-- Contenedor de entrada de tiempo -->
     <div class="input-container">
-        <div class="input-wrapper">
-            <label for="timeInput">Tiempo total manga:</label>
-            <input type="number" id="timeInput" min="1" max="60" value="19"> <!-- Valor por defecto 19 -->
-        </div>
-        <div class="input-wrapper">
-            <label for="breakInput">Tiempo entre mangas:</label>
-            <input type="number" id="breakInput" min="1" max="30" value="1"> <!-- Valor por defecto 1 -->
-        </div>
+        <label for="timeInput">Ingresa el tiempo de la manga (minutos):</label><br>
+        <input type="number" id="timeInput" min="1" max="60" value="19"><br> <!-- Valor por defecto 19 -->
+        <label for="breakInput">Tiempo entre mangas (minutos):</label><br>
+        <input type="number" id="breakInput" min="1" max="30" value="1"><br> <!-- Valor por defecto 1 -->
         <button onclick="comenzarManga()">Comenzar Manga</button>
     </div>
 
@@ -90,7 +50,7 @@
     <div class="timer">00:00</div>
 
     <!-- Botón de pausa/reanudación -->
-    <button id="toggleButton" onclick="toggleTimer()">Pausar</button>
+    <button id="toggleButton" onclick="toggleTimer()" style="display:none;">Pausar</button>
 
     <!-- Sonido de bocina -->
     <audio id="bocina">
@@ -114,7 +74,6 @@
             const minutosManga = parseInt(inputManga);
             const minutosBreak = parseInt(inputBreak);
 
-            // Validar los inputs
             if (isNaN(minutosManga) || minutosManga <= 0 || isNaN(minutosBreak) || minutosBreak <= 0) {
                 alert("Por favor, ingresa números válidos para los tiempos.");
                 return;
@@ -130,14 +89,14 @@
             document.querySelector('.timer').style.display = 'block';
             document.getElementById('toggleButton').style.display = 'block'; // Mostrar botón de pausa
 
-            // Iniciar la manga con el tiempo ingresado
+            // Comienza la manga con el tiempo ingresado
             iniciarManga();
         }
 
         // Función para manejar la lógica del temporizador de la manga
         function iniciarManga() {
             document.body.style.backgroundColor = '#00ff00'; // Fondo verde vivo al inicio
-            bocina.play(); // Reproduce sonido al iniciar la manga
+            bocina.play(); // Reproduce sonido al iniciar la manga (verde)
             actualizarPantalla();
 
             // Inicia el intervalo para contar el tiempo
@@ -173,9 +132,9 @@
                 if (!isPaused) { // Solo decrementar si no está en pausa
                     tiempoRestante--;
 
-                    // Cuando el tiempo entre mangas se ha agotado
+                    // Cuando el tiempo entre mangas se haya agotado
                     if (tiempoRestante <= 0) {
-                        clearInterval(intervalId); // Detener el intervalo de descanso
+                        clearInterval(intervalId); // Detener el intervalo
                         comenzarManga(); // Iniciar automáticamente la siguiente manga
                     }
 
@@ -184,40 +143,33 @@
             }, 1000);
         }
 
-        // Función para reproducir el sonido de la bocina
-        function reproducirBocina(rep = 1) {
-            const delay = 4000; // Tiempo de espera entre repeticiones
-            for (let i = 0; i < rep; i++) {
+        // Función para reproducir el sonido un número específico de veces
+        function reproducirBocina(repeticiones) {
+            let delay = 0;
+
+            for (let i = 1; i <= repeticiones; i++) {
                 setTimeout(() => {
-                    bocina.currentTime = 0; // Reiniciar el sonido
-                    bocina.play(); // Reproducir sonido
-                }, i * delay);
+                    bocina.currentTime = 0; // Reiniciar el tiempo de reproducción para comenzar desde el inicio
+                    bocina.play(); // Reproduce el sonido de bocina
+                }, delay);
+
+                // Incrementar el retraso para la siguiente bocina
+                delay += 3000; // 3000 ms entre reproducciones
             }
         }
 
-        // Función para actualizar el temporizador en la pantalla
+        // Función para actualizar el tiempo en la pantalla
         function actualizarPantalla() {
-            const timerDiv = document.querySelector('.timer');
-            const minutos = Math.floor(tiempoRestante / 60);
-            const segundos = tiempoRestante % 60;
-            timerDiv.textContent = `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
+            let minutos = Math.floor(tiempoRestante / 60);
+            let segundos = tiempoRestante % 60;
+            document.querySelector('.timer').textContent = 
+                `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
         }
 
         // Función para pausar o reanudar el temporizador
         function toggleTimer() {
-            isPaused = !isPaused; // Cambiar el estado de pausa
-
-            // Cambiar el texto del botón según el estado
-            const buttonText = isPaused ? 'Reanudar' : 'Pausar';
-            document.getElementById('toggleButton').textContent = buttonText;
-
-            // Cambiar el color de fondo al pausar
-            if (isPaused) {
-                document.body.style.backgroundColor = '#f0f0f0'; // Color gris al pausar
-            } else {
-                // Volver a color de manga según el estado
-                document.body.style.backgroundColor = (tiempoRestante <= 300) ? 'yellow' : '#00ff00';
-            }
+            isPaused = !isPaused;
+            document.getElementById('toggleButton').textContent = isPaused ? 'Reanudar' : 'Pausar';
         }
     </script>
 </body>
