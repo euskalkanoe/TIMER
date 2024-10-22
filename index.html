@@ -17,15 +17,6 @@
             background-color: red; /* Fondo rojo por defecto */
             color: #fff; /* Color del texto blanco para visibilidad */
         }
-        .container {
-            text-align: center;
-            border-radius: 10px;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro con opacidad */
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            width: 90%;
-            max-width: 600px;
-        }
         .timer {
             font-size: 5rem;
             margin: 20px 0;
@@ -33,26 +24,28 @@
         }
         .input-container {
             margin-bottom: 20px;
+            text-align: center; /* Centrar el texto */
         }
         input {
             font-size: 1.5rem;
             padding: 10px;
             width: 80%;
             max-width: 300px;
-            border: 2px solid #4CAF50;
+            border: none; /* Sin borde */
             border-radius: 5px;
-            transition: border-color 0.3s;
+            transition: background-color 0.3s, color 0.3s; /* Cambios de color suaves */
             color: #333; /* Color del texto dentro del input */
+            background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco para los inputs */
         }
         input:focus {
             outline: none;
-            border-color: #2E7D32;
+            background-color: #e0e0e0; /* Cambio de fondo al enfocar */
         }
         button {
             font-size: 1.5rem;
             padding: 10px 20px;
             margin-top: 10px;
-            border: none;
+            border: none; /* Sin borde */
             border-radius: 5px;
             cursor: pointer;
             background-color: #4CAF50;
@@ -69,28 +62,26 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="input-container">
         <!-- Contenedor de entrada de tiempo -->
-        <div class="input-container">
-            <label for="timeInput">Ingresa el tiempo de la manga (minutos):</label><br>
-            <input type="number" id="timeInput" min="1" max="60" value="19"><br> <!-- Valor por defecto 19 -->
-            <label for="breakInput">Tiempo entre mangas (minutos):</label><br>
-            <input type="number" id="breakInput" min="1" max="30" value="1"><br> <!-- Valor por defecto 1 -->
-            <button onclick="comenzarManga()">Comenzar Manga</button>
-        </div>
-
-        <!-- Temporizador -->
-        <div class="timer">00:00</div>
-
-        <!-- Botón de pausa/reanudación -->
-        <button id="toggleButton" onclick="toggleTimer()" style="display:none;">Pausar</button>
-
-        <!-- Sonido de bocina -->
-        <audio id="bocina">
-            <source src="bocina.mp3" type="audio/mpeg">
-            Tu navegador no soporta la reproducción de audio.
-        </audio>
+        <label for="timeInput">Ingresa el tiempo de la manga (minutos):</label><br>
+        <input type="number" id="timeInput" min="1" max="60" value="19"><br> <!-- Valor por defecto 19 -->
+        <label for="breakInput">Tiempo entre mangas (minutos):</label><br>
+        <input type="number" id="breakInput" min="1" max="30" value="1"><br> <!-- Valor por defecto 1 -->
+        <button onclick="comenzarManga()">Comenzar Manga</button>
     </div>
+
+    <!-- Temporizador -->
+    <div class="timer">00:00</div>
+
+    <!-- Botón de pausa/reanudación -->
+    <button id="toggleButton" onclick="toggleTimer()" style="display:none;">Pausar</button>
+
+    <!-- Sonido de bocina -->
+    <audio id="bocina">
+        <source src="bocina.mp3" type="audio/mpeg">
+        Tu navegador no soporta la reproducción de audio.
+    </audio>
 
     <script>
         let tiempoManga;  // Tiempo total de la manga en segundos
