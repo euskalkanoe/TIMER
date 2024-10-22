@@ -17,6 +17,16 @@
             color: #000; /* Color del texto negro para visibilidad */
             transition: background-color 0.5s ease;
         }
+        .logo-container {
+            display: flex; /* Usar flex para alinear los logos */
+            justify-content: center; /* Centrar logos */
+            margin-bottom: 20px; /* Espacio debajo de los logos */
+        }
+        .logo-container img {
+            width: 50px; /* Ajustar el ancho de los logos */
+            height: auto; /* Mantener la proporción */
+            margin: 0 10px; /* Espacio entre los logos */
+        }
         .input-container {
             margin-bottom: 40px; /* Espacio entre las cajas de entrada */
             width: 300px; /* Ancho fijo para mantener la alineación */
@@ -74,6 +84,11 @@
     </style>
 </head>
 <body>
+    <div class="logo-container">
+        <img src="logo1.png" alt="Logo 1"> <!-- Cambia "logo1.png" por el nombre de tu logo -->
+        <img src="logo2.png" alt="Logo 2"> <!-- Cambia "logo2.png" por el nombre de tu logo -->
+    </div>
+
     <div class="input-container">
         <div class="input-wrapper">
             <label for="timeInput">Tiempo total manga:</label>
@@ -185,24 +200,21 @@
 
         // Función para reproducir el sonido un número específico de veces
         function reproducirBocina(repeticiones) {
-            let delay = 0;
-
-            for (let i = 1; i <= repeticiones; i++) {
+            let delay = 4000; // Tiempo de espera entre repeticiones
+            for (let i = 0; i < repeticiones; i++) {
                 setTimeout(() => {
-                    bocina.currentTime = 0; // Reiniciar el tiempo de reproducción para comenzar desde el inicio
-                    bocina.play(); // Reproduce el sonido de bocina
-                }, delay);
-
-                // Incrementar el retraso para la siguiente bocina
-                delay += 4000; // 4000 ms entre reproducciones
+                    bocina.currentTime = 0; // Reiniciar el sonido
+                    bocina.play(); // Reproducir sonido
+                }, i * delay);
             }
         }
 
-        // Función para actualizar el tiempo en la pantalla
+        // Función para actualizar el temporizador en la pantalla
         function actualizarPantalla() {
-            let minutos = Math.floor(tiempoRestante / 60);
-            let segundos = tiempoRestante % 60;
-            document.querySelector('.timer').textContent = `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
+            const timerDiv = document.querySelector('.timer');
+            const minutos = Math.floor(tiempoRestante / 60);
+            const segundos = tiempoRestante % 60;
+            timerDiv.textContent = `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
         }
 
         // Función para alternar entre pausar y reanudar el temporizador
@@ -215,4 +227,3 @@
     </script>
 </body>
 </html>
-
