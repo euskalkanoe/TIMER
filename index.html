@@ -23,8 +23,7 @@
             width: 300px; /* Ancho fijo para mantener la alineación */
         }
         label {
-            display: block; /* Hacer que la etiqueta ocupe todo el ancho */
-            margin-bottom: 5px; /* Espacio entre la etiqueta y el input */
+            display: none; /* Ocultar la etiqueta, ya que el texto está como placeholder */
         }
         input {
             font-size: 1.5rem;
@@ -35,6 +34,9 @@
             transition: background-color 0.3s; /* Cambios de color suaves */
             color: #333; /* Color del texto dentro del input */
             background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco para los inputs */
+        }
+        input::placeholder {
+            color: #999; /* Color del texto del placeholder */
         }
         input:focus {
             outline: none;
@@ -69,10 +71,8 @@
 <body>
     <div class="input-container">
         <!-- Contenedor de entrada de tiempo -->
-        <label for="timeInput">Ingresa el tiempo de la manga (minutos):</label>
-        <input type="number" id="timeInput" min="1" max="60" value="19"><br> <!-- Valor por defecto 19 -->
-        <label for="breakInput">Tiempo entre mangas (minutos):</label>
-        <input type="number" id="breakInput" min="1" max="30" value="1"><br> <!-- Valor por defecto 1 -->
+        <input type="number" id="timeInput" min="1" max="60" value="19" placeholder="Ingresa el tiempo de la manga (minutos)"> <!-- Valor por defecto 19 -->
+        <input type="number" id="breakInput" min="1" max="30" value="1" placeholder="Tiempo entre mangas (minutos)"> <!-- Valor por defecto 1 -->
         <button onclick="comenzarManga()">Comenzar Manga</button>
     </div>
 
