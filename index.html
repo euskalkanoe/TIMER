@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control de Tiempo de Manga</title>
-    <style>
+       <style>
         body {
             margin: 0;
             height: 100vh;
@@ -50,9 +50,9 @@
 <body>
     <!-- Contenedor de entrada de tiempo -->
     <div class="input-container">
-        <label for="timeInput">Tiempo total manga:</label><br>
+        <label for="timeInput">Ingresa el tiempo de la manga (minutos):</label><br>
         <input type="number" id="timeInput" min="1" max="60" value="19"><br> <!-- Valor por defecto 19 -->
-        <label for="breakInput">Tiempo entre mangas:</label><br>
+        <label for="breakInput">Tiempo entre mangas (minutos):</label><br>
         <input type="number" id="breakInput" min="1" max="30" value="1"><br> <!-- Valor por defecto 1 -->
         <button onclick="comenzarManga()">Comenzar Manga</button>
     </div>
@@ -76,6 +76,7 @@
         let intervalId; // ID del setInterval
         let bocina = document.getElementById('bocina'); // Audio de bocina
         let isPaused = false; // Estado de pausa
+        let foco; // Variable para guardar el foco conectado
 
         // Función para iniciar la manga
         function comenzarManga() {
@@ -85,7 +86,6 @@
             const minutosManga = parseInt(inputManga);
             const minutosBreak = parseInt(inputBreak);
 
-            // Validar los inputs
             if (isNaN(minutosManga) || minutosManga <= 0 || isNaN(minutosBreak) || minutosBreak <= 0) {
                 alert("Por favor, ingresa números válidos para los tiempos.");
                 return;
@@ -101,14 +101,33 @@
             document.querySelector('.timer').style.display = 'block';
             document.getElementById('toggleButton').style.display = 'block'; // Mostrar botón de pausa
 
-            // Comenzar la manga
+            // Conectar al foco Bluetooth
+            conectarFocoBluetooth();
+
+            // Comienza la manga con el tiempo ingresado
             iniciarManga();
+        }
+
+        // Función para conectar al foco Bluetooth
+        function conectarFocoBluetooth() {
+            navigator.bluetooth.requestDevice({ filters: [{ services: ['your-service-uuid'] }] })
+                .then(device => {
+                    foco = device;
+                    return foco.gatt.connect();
+                })
+                .then(server => {
+                    console.log('Conectado al foco');
+                })
+                .catch(error => {
+                    console.error('Error al conectar al foco:', error);
+                });
         }
 
         // Función para manejar la lógica del temporizador de la manga
         function iniciarManga() {
-            document.body.style.backgroundColor = '#00ff00'; // Fondo verde al iniciar
-            bocina.play(); // Reproduce sonido al iniciar la manga
+            cambiarColorFoco('#00ff00'); // Cambiar el foco a verde
+            document.body.style.backgroundColor = '#00ff00'; // Fondo verde vivo al inicio
+            bocina.play(); // Reproduce sonido al iniciar la manga (verde)
             actualizarPantalla();
 
             // Inicia el intervalo para contar el tiempo
@@ -116,9 +135,10 @@
                 if (!isPaused) { // Solo decrementar si no está en pausa
                     tiempoRestante--;
 
-                    // Si quedan 5 minutos (300 segundos) o menos, cambiar el color a amarillo
-                    if (tiempoRestante <= 300 && tiempoRestante > 0) {
-                        document.body.style.backgroundColor = 'yellow'; // Cambiar fondo a amarillo
+                    // Si quedan 5 minutos o menos, cambiar el color a amarillo
+                    if (tiempoRestante === 5 * 60) {
+                        cambiarColorFoco('yellow'); // Cambiar el foco a amarillo
+                        document.body.style.backgroundColor = 'yellow';
                         reproducirBocina(2); // Reproduce sonido dos veces al cambiar a amarillo
                     }
 
@@ -136,6 +156,7 @@
         // Función para manejar el tiempo entre mangas
         function iniciarTiempoEntreMangas() {
             tiempoRestante = tiempoEntreMangas;
+            cambiarColorFoco('red'); // Cambiar el foco a rojo
             document.body.style.backgroundColor = 'red'; // Fondo rojo durante el descanso
             reproducirBocina(3); // Reproduce sonido tres veces al cambiar a rojo
             actualizarPantalla();
@@ -144,9 +165,9 @@
                 if (!isPaused) { // Solo decrementar si no está en pausa
                     tiempoRestante--;
 
-                    // Cuando el tiempo entre mangas se ha agotado
+                    // Cuando el tiempo entre mangas se haya agotado
                     if (tiempoRestante <= 0) {
-                        clearInterval(intervalId); // Detener el intervalo de descanso
+                        clearInterval(intervalId); // Detener el intervalo
                         comenzarManga(); // Iniciar automáticamente la siguiente manga
                     }
 
@@ -155,42 +176,57 @@
             }, 1000);
         }
 
-        // Función para reproducir el sonido de la bocina
+        // Función para reproducir el sonido un número específico de veces
         function reproducirBocina(repeticiones) {
             let delay = 0;
 
-            for (let i = 1; i <= repeticiones; i++) {
+            for (let i = 1; i <= repeticiones; i++) { // Cambiar i = 1
                 setTimeout(() => {
-                    bocina.currentTime = 0; // Reiniciar el sonido
-                    bocina.play(); // Reproducir sonido
+                    bocina.currentTime = 0; // Reiniciar el tiempo de reproducción para comenzar desde el inicio
+                    bocina.play(); // Reproduce el sonido de bocina
                 }, delay);
 
                 // Incrementar el retraso para la siguiente bocina
-                delay += 3000; // 3000 ms entre reproducciones
+                delay += 3000; // Cambiar a 3000 ms para mayor intervalo entre reproducciones
             }
         }
 
-        // Función para actualizar el temporizador en la pantalla
+        // Función para cambiar el color del foco
+        function cambiarColorFoco(color) {
+            if (!foco) return; // Si no hay foco conectado, salir
+
+            // Aquí deberás convertir el color en un formato que el foco entienda (puede ser RGB, HEX, etc.)
+            // Asegúrate de conocer el UUID del servicio y las características de tu foco.
+            let colorData;
+            if (color === '#00ff00') {
+                colorData = new Uint8Array([0, 255, 0]); // RGB para verde
+            } else if (color === 'yellow') {
+                colorData = new Uint8Array([255, 255, 0]); // RGB para amarillo
+            } else if (color === 'red') {
+                colorData = new Uint8Array([255, 0, 0]); // RGB para rojo
+            }
+
+            foco.gatt.connect()
+                .then(server => server.getPrimaryService('your-service-uuid')) // Reemplaza con tu UUID
+                .then(service => service.getCharacteristic('your-characteristic-uuid')) // Reemplaza con tu UUID
+                .then(characteristic => characteristic.writeValue(colorData))
+                .catch(error => {
+                    console.error('Error al enviar color al foco:', error);
+                });
+        }
+
+        // Función para actualizar el tiempo en la pantalla
         function actualizarPantalla() {
-            const minutos = Math.floor(tiempoRestante / 60);
-            const segundos = tiempoRestante % 60;
+            let minutos = Math.floor(tiempoRestante / 60);
+            let segundos = tiempoRestante % 60;
             document.querySelector('.timer').textContent = 
                 `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
         }
 
         // Función para pausar o reanudar el temporizador
         function toggleTimer() {
-            isPaused = !isPaused; // Cambiar el estado de pausa
-            const buttonText = isPaused ? 'Reanudar' : 'Pausar';
-            document.getElementById('toggleButton').textContent = buttonText; // Cambiar texto del botón
-
-            // Cambiar el color de fondo al pausar
-            if (isPaused) {
-                document.body.style.backgroundColor = '#f0f0f0'; // Color gris al pausar
-            } else {
-                // Volver a color de manga según el estado
-                document.body.style.backgroundColor = (tiempoRestante <= 300) ? 'yellow' : '#00ff00';
-            }
+            isPaused = !isPaused;
+            document.getElementById('toggleButton').textContent = isPaused ? 'Reanudar' : 'Pausar';
         }
     </script>
 </body>
