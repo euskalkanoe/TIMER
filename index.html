@@ -12,38 +12,64 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            font-family: Arial, sans-serif;
-            transition: background-color 0.5s ease;
+            font-family: 'Arial', sans-serif;
             background-color: red; /* Fondo rojo por defecto */
-        }
-        .timer {
-            font-size: 5rem;
-            color: white;
-            display: none; /* Oculto hasta que inicie la manga */
+            color: #000; /* Color del texto negro para visibilidad */
+            transition: background-color 0.5s ease;
         }
         .input-container {
-            text-align: center;
-            margin-bottom: 20px; /* Espacio entre el contenedor de entrada y el temporizador */
+            margin-bottom: 40px; /* Espacio entre las cajas de entrada */
+            width: 300px; /* Ancho fijo para mantener la alineación */
+            text-align: left; /* Alinear el texto a la izquierda */
+        }
+        .input-wrapper {
+            margin-bottom: 20px; /* Espacio entre los campos */
+        }
+        label {
+            font-size: 0.9rem; /* Tamaño de fuente para el texto */
+            color: #000; /* Color del texto */
+            display: block; /* Hacer que el label ocupe toda la línea */
+            margin-bottom: 5px; /* Espacio entre el label y el input */
         }
         input {
-            font-size: 1.5rem;
-            padding: 10px;
-            width: 100px;
-            margin: 5px; /* Espacio entre inputs */
+            font-size: 1.5rem; /* Tamaño de fuente para el input */
+            padding: 10px; /* Espacio interior */
+            width: 100%; /* Ancho del input al 100% */
+            border: 1px solid #ccc; /* Borde para mayor visibilidad */
+            border-radius: 5px; /* Bordes redondeados */
+            box-sizing: border-box; /* Incluir padding y borde en el tamaño total */
+            background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco para los inputs */
+            color: #333; /* Color del texto dentro del input */
+        }
+        input:focus {
+            outline: none; /* Sin contorno en el enfoque */
+            border-color: #aaa; /* Cambiar color del borde al enfocar */
         }
         button {
-            font-size: 1.5rem;
-            padding: 10px;
-            margin-top: 10px;
-            background-color: white; /* Fondo blanco para los botones */
-            color: black; /* Texto negro para los botones */
+            font-size: 1.2rem; /* Tamaño de fuente para botones */
+            padding: 10px; /* Espacio interior */
+            margin-top: 10px; /* Espacio superior */
             border: none; /* Sin borde */
-            cursor: pointer; /* Cambiar cursor al pasar por encima */
             border-radius: 5px; /* Bordes redondeados */
-            transition: background-color 0.3s; /* Transición de fondo */
+            cursor: pointer; /* Cursor pointer al pasar */
+            background-color: white; /* Color de fondo blanco */
+            color: #000; /* Texto negro para los botones */
+            transition: background-color 0.3s, color 0.3s; /* Transiciones suaves */
+            width: 100%; /* Botón del mismo ancho que los inputs */
         }
         button:hover {
             background-color: #f0f0f0; /* Color de fondo en hover */
+        }
+        #toggleButton {
+            width: auto; /* Ancho automático para el botón de pausa */
+            padding: 5px 10px; /* Espacio interior reducido */
+            margin-top: 10px; /* Espacio superior */
+            display: none; /* Ocultar por defecto */
+        }
+        .timer {
+            font-size: 6rem; /* Tamaño grande para el temporizador */
+            margin: 20px 0; /* Espacio alrededor del temporizador */
+            display: none; /* Oculto hasta que inicie la manga */
         }
     </style>
 </head>
