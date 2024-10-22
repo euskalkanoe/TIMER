@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TIMER kayak surf txapelketak</title>
+    <title>Control de Tiempo de Manga</title>
     <style>
         body {
             margin: 0;
@@ -12,51 +12,85 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             transition: background-color 0.5s ease;
-            background-color: red; /* Fondo rojo por defecto */
+            background-color: #ffcccc; /* Fondo inicial suave */
+            color: #333;
+        }
+        .container {
+            text-align: center;
+            border-radius: 10px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 600px;
         }
         .timer {
             font-size: 5rem;
-            color: white;
+            color: #fff;
+            margin: 20px 0;
             display: none; /* Oculto hasta que inicie la manga */
         }
         .input-container {
-            text-align: center;
+            margin-bottom: 20px;
         }
         input {
             font-size: 1.5rem;
             padding: 10px;
-            width: 100px;
+            width: 80%;
+            max-width: 300px;
+            border: 2px solid #4CAF50;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #2E7D32;
         }
         button {
             font-size: 1.5rem;
-            padding: 10px;
+            padding: 10px 20px;
             margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
         }
     </style>
 </head>
 <body>
-    <!-- Contenedor de entrada de tiempo -->
-    <div class="input-container">
-        <label for="timeInput">Tiempo total de la manga:</label><br>
-        <input type="number" id="timeInput" min="1" max="60" value="19"><br> <!-- Valor por defecto 19 -->
-        <label for="breakInput">Tiempo entre mangas:</label><br>
-        <input type="number" id="breakInput" min="1" max="30" value="1"><br> <!-- Valor por defecto 1 -->
-        <button onclick="comenzarManga()">Comenzar Manga</button>
+    <div class="container">
+        <!-- Contenedor de entrada de tiempo -->
+        <div class="input-container">
+            <label for="timeInput">Ingresa el tiempo de la manga (minutos):</label><br>
+            <input type="number" id="timeInput" min="1" max="60" value="19"><br> <!-- Valor por defecto 19 -->
+            <label for="breakInput">Tiempo entre mangas (minutos):</label><br>
+            <input type="number" id="breakInput" min="1" max="30" value="1"><br> <!-- Valor por defecto 1 -->
+            <button onclick="comenzarManga()">Comenzar Manga</button>
+        </div>
+
+        <!-- Temporizador -->
+        <div class="timer">00:00</div>
+
+        <!-- Botón de pausa/reanudación -->
+        <button id="toggleButton" onclick="toggleTimer()" style="display:none;">Pausar</button>
+
+        <!-- Sonido de bocina -->
+        <audio id="bocina">
+            <source src="bocina.mp3" type="audio/mpeg">
+            Tu navegador no soporta la reproducción de audio.
+        </audio>
     </div>
-
-    <!-- Temporizador -->
-    <div class="timer">00:00</div>
-
-    <!-- Botón de pausa/reanudación -->
-    <button id="toggleButton" onclick="toggleTimer()" style="display:none;">Pausar manga</button>
-
-    <!-- Sonido de bocina -->
-    <audio id="bocina">
-        <source src="bocina.mp3" type="audio/mpeg">
-        Tu navegador no soporta la reproducción del audio (bocina).
-    </audio>
 
     <script>
         let tiempoManga;  // Tiempo total de la manga en segundos
@@ -65,7 +99,6 @@
         let intervalId; // ID del setInterval
         let bocina = document.getElementById('bocina'); // Audio de bocina
         let isPaused = false; // Estado de pausa
-        let foco; // Variable para guardar el foco conectado
 
         // Función para iniciar la manga
         function comenzarManga() {
@@ -96,7 +129,6 @@
 
         // Función para manejar la lógica del temporizador de la manga
         function iniciarManga() {
-            cambiarColorFoco('#00ff00'); // Cambiar el foco a verde
             document.body.style.backgroundColor = '#00ff00'; // Fondo verde vivo al inicio
             bocina.play(); // Reproduce sonido al iniciar la manga (verde)
             actualizarPantalla();
@@ -107,8 +139,7 @@
                     tiempoRestante--;
 
                     // Si quedan 5 minutos (300 segundos) o menos, cambiar el color a amarillo
-                    if (tiempoRestante === 300) {
-                        cambiarColorFoco('yellow'); // Cambiar el foco a amarillo
+                    if (tiempoRestante <= 300 && tiempoRestante > 0) {
                         document.body.style.backgroundColor = 'yellow'; // Cambiar fondo a amarillo
                         reproducirBocina(2); // Reproduce sonido dos veces al cambiar a amarillo
                     }
@@ -127,7 +158,6 @@
         // Función para manejar el tiempo entre mangas
         function iniciarTiempoEntreMangas() {
             tiempoRestante = tiempoEntreMangas;
-            cambiarColorFoco('red'); // Cambiar el foco a rojo
             document.body.style.backgroundColor = 'red'; // Fondo rojo durante el descanso
             reproducirBocina(3); // Reproduce sonido tres veces al cambiar a rojo
             actualizarPantalla();
@@ -158,30 +188,8 @@
                 }, delay);
 
                 // Incrementar el retraso para la siguiente bocina
-                delay += 4000; // 3000 ms entre reproducciones
+                delay += 3000; // 3000 ms entre reproducciones
             }
-        }
-
-        // Función para cambiar el color del foco
-        function cambiarColorFoco(color) {
-            if (!foco) return; // Si no hay foco conectado, salir
-
-            let colorData;
-            if (color === '#00ff00') {
-                colorData = new Uint8Array([0, 255, 0]); // RGB para verde
-            } else if (color === 'yellow') {
-                colorData = new Uint8Array([255, 255, 0]); // RGB para amarillo
-            } else if (color === 'red') {
-                colorData = new Uint8Array([255, 0, 0]); // RGB para rojo
-            }
-
-            foco.gatt.connect()
-                .then(server => server.getPrimaryService('your-service-uuid')) // Reemplaza con tu UUID
-                .then(service => service.getCharacteristic('your-characteristic-uuid')) // Reemplaza con tu UUID
-                .then(characteristic => characteristic.writeValue(colorData))
-                .catch(error => {
-                    console.error('Error al enviar color al foco:', error);
-                });
         }
 
         // Función para actualizar el tiempo en la pantalla
@@ -195,9 +203,8 @@
         // Función para pausar o reanudar el temporizador
         function toggleTimer() {
             isPaused = !isPaused;
-            document.getElementById('toggleButton').textContent = isPaused ? 'Reanudar manga' : 'Pausar manga';
+            document.getElementById('toggleButton').textContent = isPaused ? 'Reanudar' : 'Pausar';
         }
     </script>
 </body>
 </html>
-
