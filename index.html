@@ -22,21 +22,27 @@
             text-align: left; /* Alinear el texto a la izquierda */
             width: 300px; /* Ancho fijo para mantener la alineación */
         }
-        label {
-            display: none; /* Ocultar la etiqueta, ya que el texto está como placeholder */
+        .input-wrapper {
+            position: relative; /* Para permitir la posición absoluta del texto */
+            margin-bottom: 20px; /* Espacio entre los campos */
+        }
+        .input-label {
+            position: absolute; /* Para superponer el texto en el input */
+            left: 10px; /* Espacio desde la izquierda */
+            top: 10px; /* Espacio desde la parte superior */
+            font-size: 0.9rem; /* Tamaño de fuente para el texto */
+            color: #999; /* Color del texto */
+            pointer-events: none; /* Ignorar eventos del mouse en esta área */
         }
         input {
             font-size: 1.5rem;
-            padding: 10px;
+            padding: 20px 10px; /* Ajustar el padding para dar espacio al texto */
             width: 80px; /* Ancho reducido para las cajas de entrada */
             border: none; /* Sin borde */
             border-radius: 5px;
             transition: background-color 0.3s; /* Cambios de color suaves */
             color: #333; /* Color del texto dentro del input */
             background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco para los inputs */
-        }
-        input::placeholder {
-            color: #999; /* Color del texto del placeholder */
         }
         input:focus {
             outline: none;
@@ -71,8 +77,14 @@
 <body>
     <div class="input-container">
         <!-- Contenedor de entrada de tiempo -->
-        <input type="number" id="timeInput" min="1" max="60" value="19" placeholder="Ingresa el tiempo de la manga (minutos)"> <!-- Valor por defecto 19 -->
-        <input type="number" id="breakInput" min="1" max="30" value="1" placeholder="Tiempo entre mangas (minutos)"> <!-- Valor por defecto 1 -->
+        <div class="input-wrapper">
+            <input type="number" id="timeInput" min="1" max="60" value="19"> <!-- Valor por defecto 19 -->
+            <label class="input-label" for="timeInput">Ingresa el tiempo de la manga (minutos):</label>
+        </div>
+        <div class="input-wrapper">
+            <input type="number" id="breakInput" min="1" max="30" value="1"> <!-- Valor por defecto 1 -->
+            <label class="input-label" for="breakInput">Tiempo entre mangas (minutos):</label>
+        </div>
         <button onclick="comenzarManga()">Comenzar Manga</button>
     </div>
 
@@ -192,15 +204,4 @@
         function actualizarPantalla() {
             let minutos = Math.floor(tiempoRestante / 60);
             let segundos = tiempoRestante % 60;
-            document.querySelector('.timer').textContent = 
-                `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
-        }
-
-        // Función para pausar o reanudar el temporizador
-        function toggleTimer() {
-            isPaused = !isPaused;
-            document.getElementById('toggleButton').textContent = isPaused ? 'Reanudar' : 'Pausar';
-        }
-    </script>
-</body>
-</html>
+           
