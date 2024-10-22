@@ -17,13 +17,8 @@
             background-color: red; /* Fondo rojo por defecto */
             color: #fff; /* Color del texto blanco para visibilidad */
         }
-        .timer {
-            font-size: 5rem;
-            margin: 20px 0;
-            display: none; /* Oculto hasta que inicie la manga */
-        }
         .input-container {
-            margin-bottom: 20px;
+            margin-bottom: 40px; /* Más espacio entre las cajas de entrada */
             text-align: center; /* Centrar el texto */
         }
         input {
@@ -48,16 +43,22 @@
             border: none; /* Sin borde */
             border-radius: 5px;
             cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
-            transition: background-color 0.3s;
+            background-color: white; /* Botones de color blanco */
+            color: #4CAF50; /* Texto de los botones en verde */
+            transition: background-color 0.3s, color 0.3s; /* Transición suave */
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #f0f0f0; /* Color de fondo en hover */
+            color: #45a049; /* Color del texto en hover */
         }
         button:disabled {
             background-color: #ccc;
             cursor: not-allowed;
+        }
+        .timer {
+            font-size: 6rem; /* Aumentar el tamaño del temporizador */
+            margin: 20px 0;
+            display: none; /* Oculto hasta que inicie la manga */
         }
     </style>
 </head>
