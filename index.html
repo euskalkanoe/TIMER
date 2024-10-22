@@ -90,26 +90,8 @@
             document.querySelector('.timer').style.display = 'block';
             document.getElementById('toggleButton').style.display = 'block'; // Mostrar botón de pausa
 
-            // Conectar al foco Bluetooth
-            conectarFocoBluetooth();
-
             // Comienza la manga con el tiempo ingresado
             iniciarManga();
-        }
-
-        // Función para conectar al foco Bluetooth
-        function conectarFocoBluetooth() {
-            navigator.bluetooth.requestDevice({ filters: [{ services: ['your-service-uuid'] }] })
-                .then(device => {
-                    foco = device;
-                    return foco.gatt.connect();
-                })
-                .then(server => {
-                    console.log('Conectado al foco');
-                })
-                .catch(error => {
-                    console.error('Error al conectar al foco:', error);
-                });
         }
 
         // Función para manejar la lógica del temporizador de la manga
@@ -124,10 +106,10 @@
                 if (!isPaused) { // Solo decrementar si no está en pausa
                     tiempoRestante--;
 
-                    // Si quedan 5 minutos o menos, cambiar el color a amarillo
-                    if (tiempoRestante === 5 * 60) {
+                    // Si quedan 5 minutos (300 segundos) o menos, cambiar el color a amarillo
+                    if (tiempoRestante === 300) {
                         cambiarColorFoco('yellow'); // Cambiar el foco a amarillo
-                        document.body.style.backgroundColor = 'yellow';
+                        document.body.style.backgroundColor = 'yellow'; // Cambiar fondo a amarillo
                         reproducirBocina(2); // Reproduce sonido dos veces al cambiar a amarillo
                     }
 
@@ -169,14 +151,14 @@
         function reproducirBocina(repeticiones) {
             let delay = 0;
 
-            for (let i = 1; i <= repeticiones; i++) { // Cambiar i = 1
+            for (let i = 1; i <= repeticiones; i++) {
                 setTimeout(() => {
                     bocina.currentTime = 0; // Reiniciar el tiempo de reproducción para comenzar desde el inicio
                     bocina.play(); // Reproduce el sonido de bocina
                 }, delay);
 
                 // Incrementar el retraso para la siguiente bocina
-                delay += 3000; // Cambiar a 3000 ms para mayor intervalo entre reproducciones
+                delay += 4000; // 3000 ms entre reproducciones
             }
         }
 
@@ -184,8 +166,6 @@
         function cambiarColorFoco(color) {
             if (!foco) return; // Si no hay foco conectado, salir
 
-            // Aquí deberás convertir el color en un formato que el foco entienda (puede ser RGB, HEX, etc.)
-            // Asegúrate de conocer el UUID del servicio y las características de tu foco.
             let colorData;
             if (color === '#00ff00') {
                 colorData = new Uint8Array([0, 255, 0]); // RGB para verde
@@ -220,3 +200,4 @@
     </script>
 </body>
 </html>
+
