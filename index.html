@@ -17,30 +17,30 @@
             background-color: red; /* Fondo rojo por defecto */
         }
         .timer {
-            font-size: 10rem;
+            font-size: 20rem;
             color: white;
             display: none; /* Oculto hasta que inicie la manga */
             border-radius: 15px; /* Bordes redondeados */
-            padding: 20px; /* Espaciado interno */
+            padding: 30px; /* Espaciado interno */
             background-color: rgba(0, 0, 0, 0.2); /* Fondo semi-transparente */
         }
         .input-container {
             text-align: center;
             border-radius: 15px; /* Bordes redondeados */
             padding: 20px; /* Espaciado interno */
-            background-color: rgba(255, 255, 255, 0.9); /* Fondo semi-transparente */
+            background-color: rgba(255, 255, 255, 0.4); /* Fondo semi-transparente */
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0); /* Sombra suave */
         }
         input {
             font-size: 1.5rem;
             padding: 10px;
-            width: 100px;
+            width: 80px;
             border-radius: 10px; /* Bordes redondeados */
             border: 2px solid #ccc; /* Borde suave */
             transition: border-color 0.3s ease; /* Transición suave */
         }
         input:focus {
-            border-color: #007BFF; /* Color del borde al enfocar */
+            border-color: #b7b7b7; /* Color del borde al enfocar */
             outline: none; /* Quitar contorno */
         }
         button {
@@ -49,13 +49,13 @@
             margin-top: 10px;
             border-radius: 10px; /* Bordes redondeados */
             border: none; /* Sin borde */
-            background-color: grey; /* Color de fondo del botón */
+            background-color: #d9d9d9; /* Color de fondo del botón */
             color: black; /* Color del texto */
             cursor: pointer; /* Cambia el cursor al pasar */
             transition: background-color 0.3s ease; /* Transición suave */
         }
         button:hover {
-            background-color: #0056b3; /* Color al pasar el mouse */
+            background-color: #b7b7b7; /* Color al pasar el mouse */
         }
         button:active {
             background-color: #004080; /* Color al hacer clic */
@@ -65,7 +65,7 @@
 <body>
     <!-- Contenedor de entrada de tiempo -->
     <div class="input-container">
-        <label for="timeInput">Ingresa el tiempo total de la manga:</label><br>
+        <label for="timeInput">Tiempo total de la manga:</label><br>
         <input type="number" id="timeInput" min="1" max="60" value="19"><br> <!-- Valor por defecto 19 -->
         <label for="breakInput">Tiempo entre mangas:</label><br>
         <input type="number" id="breakInput" min="1" max="30" value="1"><br> <!-- Valor por defecto 1 -->
