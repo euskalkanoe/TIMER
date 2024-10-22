@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control de Tiempo de Manga</title>
+    <title>TIMER kayak surf txapelketak</title>
     <style>
         body {
             margin: 0;
@@ -39,9 +39,9 @@
 <body>
     <!-- Contenedor de entrada de tiempo -->
     <div class="input-container">
-        <label for="timeInput">Ingresa el tiempo de la manga (minutos):</label><br>
+        <label for="timeInput">Tiempo total de la manga:</label><br>
         <input type="number" id="timeInput" min="1" max="60" value="19"><br> <!-- Valor por defecto 19 -->
-        <label for="breakInput">Tiempo entre mangas (minutos):</label><br>
+        <label for="breakInput">Tiempo entre mangas:</label><br>
         <input type="number" id="breakInput" min="1" max="30" value="1"><br> <!-- Valor por defecto 1 -->
         <button onclick="comenzarManga()">Comenzar Manga</button>
     </div>
@@ -50,12 +50,12 @@
     <div class="timer">00:00</div>
 
     <!-- Botón de pausa/reanudación -->
-    <button id="toggleButton" onclick="toggleTimer()" style="display:none;">Pausar</button>
+    <button id="toggleButton" onclick="toggleTimer()" style="display:none;">Pausar manga</button>
 
     <!-- Sonido de bocina -->
     <audio id="bocina">
         <source src="bocina.mp3" type="audio/mpeg">
-        Tu navegador no soporta la reproducción de audio.
+        Tu navegador no soporta la reproducción del audio (bocina).
     </audio>
 
     <script>
@@ -195,7 +195,7 @@
         // Función para pausar o reanudar el temporizador
         function toggleTimer() {
             isPaused = !isPaused;
-            document.getElementById('toggleButton').textContent = isPaused ? 'Reanudar' : 'Pausar';
+            document.getElementById('toggleButton').textContent = isPaused ? 'Reanudar manga' : 'Pausar manga';
         }
     </script>
 </body>
