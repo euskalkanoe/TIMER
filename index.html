@@ -71,11 +71,11 @@
 <body>
     <div class="input-container">
         <div class="input-wrapper">
-            <label for="timeInput">Ingresa el tiempo de la manga (minutos):</label>
+            <label for="timeInput">Tiempo total manga:</label>
             <input type="number" id="timeInput" min="1" max="60" value="19"> <!-- Valor por defecto 19 -->
         </div>
         <div class="input-wrapper">
-            <label for="breakInput">Tiempo entre mangas (minutos):</label>
+            <label for="breakInput">Tiempo entre mangas:</label>
             <input type="number" id="breakInput" min="1" max="30" value="1"> <!-- Valor por defecto 1 -->
         </div>
         <button onclick="comenzarManga()">Comenzar Manga</button>
@@ -189,7 +189,7 @@
                 }, delay);
 
                 // Incrementar el retraso para la siguiente bocina
-                delay += 3000; // 3000 ms entre reproducciones
+                delay += 4000; // 4000 ms entre reproducciones
             }
         }
 
