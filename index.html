@@ -14,21 +14,20 @@
             flex-direction: column;
             font-family: 'Arial', sans-serif;
             transition: background-color 0.5s ease;
-            background-color: #ffcccc; /* Fondo inicial suave */
-            color: #333;
+            background-color: red; /* Fondo rojo por defecto */
+            color: #fff; /* Color del texto blanco para visibilidad */
         }
         .container {
             text-align: center;
             border-radius: 10px;
             padding: 20px;
-            background-color: white;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro con opacidad */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             width: 90%;
             max-width: 600px;
         }
         .timer {
             font-size: 5rem;
-            color: #fff;
             margin: 20px 0;
             display: none; /* Oculto hasta que inicie la manga */
         }
@@ -43,6 +42,7 @@
             border: 2px solid #4CAF50;
             border-radius: 5px;
             transition: border-color 0.3s;
+            color: #333; /* Color del texto dentro del input */
         }
         input:focus {
             outline: none;
