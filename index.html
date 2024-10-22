@@ -69,7 +69,7 @@
         <label for="timeInput">Tiempo total de la manga:</label><br>
         <input type="number" id="timeInput" min="1" max="60" value="19"><br> <!-- Valor por defecto 19 -->
         <label for="breakInput">Tiempo entre mangas:</label><br>
-        <input type="number" id="breakInput" min="1" max="30" value="1"><br> <!-- Valor por defecto 1 -->
+        <input type="number" id="breakInput" min="0" max="30" value="1"><br> <!-- Valor por defecto 1 -->
         <button onclick="comenzarManga()">Comenzar Manga</button>
     </div>
 
@@ -102,7 +102,7 @@
             const minutosManga = parseInt(inputManga);
             const minutosBreak = parseInt(inputBreak);
 
-            if (isNaN(minutosManga) || minutosManga <= 0 || isNaN(minutosBreak) || minutosBreak <= 0) {
+            if (isNaN(minutosManga) || minutosManga <= 0 || isNaN(minutosBreak) || minutosBreak < 0) {
                 alert("Por favor, ingresa números válidos para los tiempos.");
                 return;
             }
